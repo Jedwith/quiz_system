@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env
+.venv/
+env/
+ENV/
+
+# Environment files
+*.env
+.env.*
+
+# PyCharm / VSCode settings
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+
+# Alembic cache
+alembic/__pycache__/
+
+# Databases
+*.db
+*.sqlite3
