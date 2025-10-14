@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.database import Base, engine
-from src.api.v1 import auth
+from src.api.v1 import auth, room_router
 from src.models import *
 app = FastAPI(title="Quiz System")
 
@@ -19,3 +19,4 @@ async def on_startup():
         await conn.run_sync(Base.metadata.create_all)
 
 app.include_router(auth.router)
+app.include_router(room_router.router)
