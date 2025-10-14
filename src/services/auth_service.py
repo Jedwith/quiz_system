@@ -17,7 +17,7 @@ async def register(db: AsyncSession, user_data:UserRegister, role_name: str):
     role = role_result.scalar_one_or_none()
 
     if not role:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Указанная роль не существует")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Указанная роль не существует")
 
     hashed_password = get_password_hash(user_data.password)
 
