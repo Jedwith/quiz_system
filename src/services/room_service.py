@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.models.room import Room
 from src.models.user import User
 from sqlalchemy import select
-from src.schemas.room import RoomCreate
+from src.schemas.room import RoomCreate, RoomUpdate
 from fastapi import HTTPException, status
 
 async def generate_unique_room_code(db: AsyncSession, length: int = 6) -> str:
@@ -30,10 +30,17 @@ async def create_room(db: AsyncSession, room_data:RoomCreate):
         name=room_data.name,
         code=code,
         teacher_id=room_data.teacher_id,
-        status=room_data.status
+        status='active'
 
     )
     db.add(room)
     await db.commit()
     await db.refresh(room)
     return room
+
+
+
+
+
+
+
