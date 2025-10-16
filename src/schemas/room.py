@@ -6,8 +6,10 @@ from typing import Optional
 class RoomCreate(BaseModel):
     name: str
     teacher_id: int
-    status: str = 'active'
 
+class RoomUpdate(BaseModel):
+    name: str
+    teacher_id: int
 
 class RoomResponse(BaseModel):
     id: int
