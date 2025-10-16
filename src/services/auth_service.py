@@ -46,5 +46,15 @@ async def login(db: AsyncSession, user_data:UserLogin):
     if not user or not verify_password(user_data.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный email или пароль")
 
-    access_token = create_access_token(data={"sub": str(user.id)})
+    # Получаем роль пользователя
+    role_result = await db.execute(select(Role).where(Role.id == user.role_id))
+    role = role_result.scalar_one_or_none()
+
+    if not role:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Роль пользователя не найдена"
+        )
+
+    access_token = create_access_token(data={"sub": str(user.id), "role": role.name})
     return Token(access_token=access_token, token_type="bearer")
