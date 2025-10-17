@@ -24,13 +24,35 @@ async def create_room(db: AsyncSession, room_data:RoomCreate, teacher_id: int):
         code=code,
         teacher_id=teacher_id,
         status='active'
-
     )
     db.add(room)
     await db.commit()
     await db.refresh(room)
     return room
 
+async def update_room(db: AsyncSession, room_id, room_data:RoomUpdate, teacher_id:int):
+    result = await db.execute(select(Room).where(Room.id == room_id, Room.teacher_id == teacher_id))
+    room = result.scalar_one_or_none()
+
+    if not room:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Комната не найдена или у вас нет прав на ее редактирование")
+
+    if room_data.name is not None:
+        room.name = room_data.name
+
+    await db.commit()
+    await db.refresh(room)
+    return room
+
+async def delete_room(db: AsyncSession, room_id, teacher_id:int):
+    result = await db.execute(select(Room).where(Room.id == room_id, Room.teacher_id == teacher_id))
+    room = result.scalar_one_or_none()
+
+    if not room:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Комната не найдена или у вас нет прав на ее удаление")
+
+    await db.delete(room)
+    await db.commit()
 
 
 
