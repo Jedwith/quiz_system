@@ -7,8 +7,10 @@ class RoomCreate(BaseModel):
     name: str
 
 class RoomUpdate(BaseModel):
-    name: str
-    teacher_id: int
+    name: Optional[str] = None
+
+    class Config:
+        extra = "forbid"
 
 class RoomResponse(BaseModel):
     id: int
