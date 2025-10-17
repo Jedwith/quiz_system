@@ -5,7 +5,6 @@ from typing import Optional
 
 class RoomCreate(BaseModel):
     name: str
-    teacher_id: int
 
 class RoomUpdate(BaseModel):
     name: str

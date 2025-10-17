@@ -39,11 +39,11 @@ async def register(db: AsyncSession, user_data:UserRegister, role_name: str):
         role=role.name
     )
 
-async def login(db: AsyncSession, user_data:UserLogin):
-    result = await db.execute(select(User).where(User.email == user_data.email))
+async def login(db: AsyncSession, email:str, password:str):
+    result = await db.execute(select(User).where(User.email == email))
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(user_data.password, user.password):
+    if not user or not verify_password(password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный email или пароль")
 
     # Получаем роль пользователя

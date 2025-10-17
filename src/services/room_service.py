@@ -17,19 +17,12 @@ async def generate_unique_room_code(db: AsyncSession, length: int = 6) -> str:
         if not result.scalars().first():
             return code
 
-async def create_room(db: AsyncSession, room_data:RoomCreate):
-    result = await db.execute(select(User).where(User.id == room_data.teacher_id))
-    teacher = result.scalar_one_or_none()
-
-    if not teacher:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Преподаватель не найден")
-
+async def create_room(db: AsyncSession, room_data:RoomCreate, teacher_id: int):
     code = await generate_unique_room_code(db)
-
     room = Room(
         name=room_data.name,
         code=code,
-        teacher_id=room_data.teacher_id,
+        teacher_id=teacher_id,
         status='active'
 
     )
