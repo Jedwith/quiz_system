@@ -17,6 +17,17 @@ async def generate_unique_room_code(db: AsyncSession, length: int = 6) -> str:
         if not result.scalars().first():
             return code
 
+
+async def get_rooms(db: AsyncSession, teacher_id: int):
+    result = await db.execute(
+        select(Room)
+        .where(Room.teacher_id == teacher_id)
+        .order_by(Room.created_at.desc())  # новые комнаты первыми
+    )
+    rooms = result.scalars().all()
+    return rooms
+
+
 async def create_room(db: AsyncSession, room_data:RoomCreate, teacher_id: int):
     code = await generate_unique_room_code(db)
     room = Room(
