@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, func, ForeignKey, Date
 from datetime import date
@@ -7,7 +9,7 @@ class Test(Base):
     __tablename__ = 'tests'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, index=True)
     name: Mapped[str]
-    description: Mapped[str]
+    description: Mapped[Optional[str]] = mapped_column(nullable=True)
     created_at: Mapped[date] = mapped_column(Date, server_default=func.now())
     teacher_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
 
