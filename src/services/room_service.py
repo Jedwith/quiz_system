@@ -41,7 +41,7 @@ async def create_room(db: AsyncSession, room_data:RoomCreate, teacher_id: int):
     await db.refresh(room)
     return room
 
-async def update_room(db: AsyncSession, room_id, room_data:RoomUpdate, teacher_id:int):
+async def update_room(db: AsyncSession, room_id:int, room_data:RoomUpdate, teacher_id:int):
     result = await db.execute(select(Room).where(Room.id == room_id, Room.teacher_id == teacher_id))
     room = result.scalar_one_or_none()
 
