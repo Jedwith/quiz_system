@@ -6,7 +6,6 @@ class Question(Base):
     __tablename__ = 'questions'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, index=True)
     text: Mapped[str]
-    test_id: Mapped[int] = mapped_column(Integer, ForeignKey('tests.id'), index=True)
     type_id: Mapped[int] = mapped_column(Integer, ForeignKey('question_types.id'), index=True)
 
     answers_in_session: Mapped[list["SessionAnswer"]] = relationship("SessionAnswer", back_populates="question")
