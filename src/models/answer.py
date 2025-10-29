@@ -6,7 +6,7 @@ class Answer(Base):
     __tablename__ = 'answers'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, index=True)
     text: Mapped[str]
-    order: Mapped[int] = mapped_column(Integer, nullable=True)
+    order: Mapped[int] = mapped_column(Integer, nullable=False)
     is_correct: Mapped[bool] = mapped_column(Boolean, default=False)
     question_id: Mapped[int] = mapped_column(Integer, ForeignKey('questions.id'))
 
