@@ -28,6 +28,12 @@ class QuestionAddToTest(BaseModel):
     order: Optional[int] = None
     points: int = 1
 
+class QuestionUpdateInTest(BaseModel):
+    text: Optional[str] = None
+    type_id: Optional[int] = None
+    order: Optional[int] = None
+    points: Optional[int] = None
+
 class QuestionInTestResponse(BaseModel):
     id: int
     text: str
