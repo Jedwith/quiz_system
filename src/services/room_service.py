@@ -1,8 +1,7 @@
 import string
 import random
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models.room import Room
-from src.models.user import User
+from src.models import Room
 from sqlalchemy import select
 from src.schemas.room import RoomCreate, RoomUpdate
 from fastapi import HTTPException, status
@@ -17,7 +16,6 @@ async def generate_unique_room_code(db: AsyncSession, length: int = 6) -> str:
         if not result.scalars().first():
             return code
 
-
 async def get_rooms(db: AsyncSession, teacher_id: int):
     result = await db.execute(
         select(Room)
@@ -26,7 +24,6 @@ async def get_rooms(db: AsyncSession, teacher_id: int):
     )
     rooms = result.scalars().all()
     return rooms
-
 
 async def create_room(db: AsyncSession, room_data:RoomCreate, teacher_id: int):
     code = await generate_unique_room_code(db)

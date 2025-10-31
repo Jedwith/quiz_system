@@ -1,7 +1,5 @@
-from src.models import Test, question
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models.question import Question
-from src.models.question_test import QuestionTest
+from src.models import Test, Question, QuestionTest
 from src.schemas.question import QuestionCreateInTest, QuestionAddToTest, QuestionUpdateInTest, QuestionInTestResponse
 from sqlalchemy import select
 from fastapi import HTTPException, status

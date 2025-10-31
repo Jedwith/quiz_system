@@ -5,8 +5,8 @@ class UserCreate(BaseModel):
     password: str
 
 class UserRead(BaseModel):
-    id:int
-    email:EmailStr
+    id: int
+    email: EmailStr
 
 class Config:
     from_attributes = True

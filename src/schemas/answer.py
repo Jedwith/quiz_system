@@ -11,7 +11,7 @@ class AnswerUpdate(BaseModel):
 
 class AnswerResponse(BaseModel):
     id: int
-    name: str
+    text: str
     order: int
     is_correct: bool
     question_id: int
