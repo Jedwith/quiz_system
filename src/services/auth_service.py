@@ -1,12 +1,11 @@
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.models.role import Role
-from src.models.user import User
+from src.models import Role, User
 from src.core.security import get_password_hash, verify_password, create_access_token
 from src.schemas.auth import UserRegister, UserLogin, UserResponse, Token
 from sqlalchemy import select
 
-async def register(db: AsyncSession, user_data:UserRegister, role_name: str):
+async def register(db: AsyncSession, user_data: UserRegister, role_name: str):
     result = await db.execute(select(User).where(User.email == user_data.email))
     existing_user = result.scalar_one_or_none()
 
@@ -26,7 +25,7 @@ async def register(db: AsyncSession, user_data:UserRegister, role_name: str):
         last_name=user_data.last_name,
         email=user_data.email,
         password=hashed_password,
-        role_id = role.id
+        role_id=role.id
     )
     db.add(new_user)
     await db.commit()
@@ -39,11 +38,11 @@ async def register(db: AsyncSession, user_data:UserRegister, role_name: str):
         role=role.name
     )
 
-async def login(db: AsyncSession, email:str, password:str):
-    result = await db.execute(select(User).where(User.email == email))
+async def login(db: AsyncSession, user_data: UserLogin):
+    result = await db.execute(select(User).where(User.email == user_data.email))
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(password, user.password):
+    if not user or not verify_password(user_data.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный email или пароль")
 
     # Получаем роль пользователя
