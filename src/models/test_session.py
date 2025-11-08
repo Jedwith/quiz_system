@@ -6,8 +6,8 @@ from src.database import Base
 class TestSession(Base):
     __tablename__ = 'test_sessions'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, index=True)
-    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True),server_default=func.now())
-    end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    end_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     room_id: Mapped[int] = mapped_column(Integer, ForeignKey('rooms.id'), index=True)
     test_id: Mapped[int] = mapped_column(Integer, ForeignKey('tests.id'), index=True)
     type_id: Mapped[int] = mapped_column(Integer, ForeignKey('class_types.id'), index=True)
