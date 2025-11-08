@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.database import Base, engine
-from src.api.v1 import auth, room_router, test_router, question_router, answer_router
+from src.api.v1 import auth, room_router, test_router, question_router, answer_router, test_session_router
 from src.models import *
 app = FastAPI(title="Quiz System")
 
@@ -23,4 +23,5 @@ app.include_router(room_router.router)
 app.include_router(test_router.router)
 app.include_router(question_router.router)
 app.include_router(answer_router.router)
+app.include_router(test_session_router.router)
 
