@@ -22,7 +22,7 @@ async def add_existing_question_to_test(question: QuestionAddToTest, question_id
 
 @router.patch("/{test_id}/questions/{question_id}", response_model=QuestionInTestResponse, summary="Редактирование вопроса в тесте")
 async def update_question_in_test(question: QuestionUpdateInTest, test_id: int, question_id: int, teacher_id: int = Depends(get_teacher_id), db: AsyncSession = Depends(get_db)):
-    return await question_service.update_question_in_test(db, question, question_id, test_id, teacher_id)
+    return await question_service.update_question_in_test(db, question, test_id, question_id, teacher_id)
 
 @router.delete("/{test_id}/questions/{question_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Удаление вопроса из теста")
 async def delete_question_from_test(test_id: int, question_id: int, teacher_id: int = Depends(get_teacher_id), db: AsyncSession = Depends(get_db)):
