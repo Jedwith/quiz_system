@@ -18,3 +18,16 @@ async def get_teacher_id(credentials: HTTPAuthorizationCredentials = Depends(bea
         return int(user_id)
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный токен")
+
+
+async def get_student_id(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
+    token = credentials.credentials
+    try:
+        payload = verify_token(token)
+        user_id = payload.get("sub")
+        role = payload.get("role")
+        if not user_id or role != "student":
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Доступ разрешён только студентам")
+        return int(user_id)
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Неверный токен")
